@@ -3,6 +3,9 @@
 # ^ That makes it possible to write unicode stuff ＬＩＫＥ　ＴＨＩＳ in code :)
 
 def widen_chr(c):
+    """Returns the fullwidth form of a given character if it exists or the same 
+    character if it doesn't.
+    """
     # Wikipedia (http://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms): 
     # "Range U+FF01–FF5E reproduces the characters of ASCII 21 to 7E as 
     # fullwidth forms."
@@ -14,9 +17,11 @@ def widen_chr(c):
         return c
 
 def widen(s):
+    """Returns a fullwidth version of a given string."""
     return ''.join(widen_chr(c) for c in s)
     
 def classy_frame(wide_str):
+    """Adds a classy frame to a given fullwidth string."""
     margin = '  '
     # Fullwidth characters takes twice the space.
     width = 2 * len(wide_str) + 2 * len(margin) 
