@@ -3,8 +3,11 @@
 # ^ That makes it possible to write unicode stuff ＬＩＫＥ　ＴＨＩＳ in code :)
 
 def widen_chr(c):
-    if 'A' <= c.upper() <= 'Z':
-        return chr(ord('Ａ') + ord(c) - ord('A'))
+    # Wikipedia (http://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms): 
+    # "Range U+FF01–FF5E reproduces the characters of ASCII 21 to 7E as 
+    # fullwidth forms."
+    if 0x21 <= ord(c) <= 0x7E:
+        return chr(0xFF01 + ord(c) - 0x21)
     elif c == ' ':
         return '　'
     else:
@@ -13,12 +16,35 @@ def widen_chr(c):
 def widen(s):
     return ''.join(widen_chr(c) for c in s)
     
+def classy_frame(wide_str):
+    margin = '  '
+    # Fullwidth characters takes twice the space.
+    width = 2 * len(wide_str) + 2 * len(margin) 
+    # The 'ஜ۩۞۩ஜ'  string is 5 characters long, but takes 6 spaces, so - 1 to the
+    # total width :)
+    sep = 'ஜ۩۞۩ஜ'.center(width - 1, '▬')
+    return sep + '\n\n' + margin + wide_str + '\n\n' + sep
+
+# Option parsing...
 from optparse import OptionParser
 
-desc = "Widen some text. For example '%prog Hello World' will print "\
-    "'Ｈｅｌｌｏ　Ｗｏｒｌｄ'"
+desc = "Widen some text. For example '$ %prog Hello World' prints "\
+       "'Ｈｅｌｌｏ　Ｗｏｒｌｄ'"
 parser = OptionParser(description=desc)
+parser.add_option('-u', '--upper', action='store_true', default=False, 
+                  help='print output in uppercase')
+parser.add_option('-c', '--classy', action='store_true', default=False,
+                  help='print some classy frame around widen text')
 options, args = parser.parse_args()
 
-wide_args = (widen(arg) for arg in args)
-print(*wide_args, sep='　')
+# Magic starts...
+if options.upper:
+    args = (arg.upper() for arg in args)
+
+wide_str = '　'.join(widen(arg) for arg in args)
+
+if options.classy:
+    print(classy_frame(wide_str))
+else:
+    print(wide_str)
+
