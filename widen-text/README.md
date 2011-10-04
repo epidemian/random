@@ -16,10 +16,10 @@ $ widen Hello World
 Advanced:
 
 ```bash
-$ widen --upper --classy "this is classy"
+$ widen --upper --classy "classy message"
 ▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-  ＴＨＩＳ　ＩＳ　ＣＬＡＳＳＹ
+  ＣＬＡＳＳＹ　ＭＥＳＳＡＧＥ
 
 ▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬
 ```
