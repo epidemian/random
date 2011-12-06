@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<h1>Awesome Recipes</h1>
+<ul>
+    <% @recipes.each do |recipe| %>
+        <li><a href="<%= url(recipe) %>"><%= recipe %></a></li>
+    <% end %>
+</ul>
