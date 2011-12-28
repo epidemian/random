@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+def moves(n, start, end):
+    if n == 0:
+        return []
+    else:
+        aux = ({0,1,2} - {start, end}).pop()
+        return moves(n - 1, start, aux) \
+                + [(start, end)] \
+                + moves(n - 1, aux, end)
+
+def print_pegs(n, pegs):
+    # Print each level from top to bottom.
+    for level in range(n, 0, -1):
+        for peg in pegs:
+            if len(peg) < level:
+                space = ' ' * (n - 1)
+                print(space + '|' + space, end='')
+            else:
+                radius = peg[level - 1]
+                disk = '#' * (2 * radius - 1)
+                space = ' ' * (n - radius)
+                print(space + disk + space, end='')
+        print()
+    print('=' * (2 * n - 1) * len(pegs))
+
+def hanoi(n):
+    pegs = [list(range(n, 0, -1)), [], []]
+    peg_names = ['A', 'B', 'C']
+    
+    print_pegs(n, pegs)
+    for start, end in moves(n, 0, 1):
+        disk = pegs[start].pop()
+        pegs[end].append(disk)
+        print(peg_names[start], '->', peg_names[end])
+        print_pegs(n, pegs)
+    
+import sys
+
+# TODO Use argparse (maybe)
+try:
+    n = int(sys.argv[1])
+except (IndexError, ValueError):
+    print('Usage', sys.argv[0], 'N')
+else:
+    hanoi(n)
