@@ -25,7 +25,7 @@ def wat() {
                 sentences << _log[n][1]
                 n++
                 break
-            // The last word in a odd-word sentence.
+            // The last word in an odd-word sentence.
             case ~/nested-property.*/:
                 words << _log[n][1]
                 endSentence()
